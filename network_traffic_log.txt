@@ -1,0 +1,66 @@
+==================================================
+Timestamp: 08/16/26 | 02:12:04
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:49747
+D: 127.0.0.1:9999
+F: S
+Packet Length: 68 bytes
+Payload: none
+==================================================
+
+==================================================
+Timestamp: 08/16/26 | 02:12:04
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:9999
+D: 127.0.0.1:49747
+F: SA
+Packet Length: 68 bytes
+Payload: none
+==================================================
+
+==================================================
+Timestamp: 08/16/26 | 02:12:04
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:49747
+D: 127.0.0.1:9999
+F: A
+Packet Length: 56 bytes
+Payload: none
+==================================================
+
+==================================================
+Timestamp: 08/16/26 | 02:12:04
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:9999
+D: 127.0.0.1:49747
+F: A
+Packet Length: 56 bytes
+Payload: none
+==================================================
+
+==================================================
+Timestamp: 08/16/26 | 02:12:56
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:49747
+D: 127.0.0.1:9999
+F: PA
+Packet Length: 62 bytes
+Payload: yo wsg
+==================================================
+
+==================================================
+Timestamp: 08/16/26 | 02:12:56
+Transport Protocol: TCP
+Application Protocol: unknown
+S: 127.0.0.1:9999
+D: 127.0.0.1:49747
+F: A
+Packet Length: 56 bytes
+Payload: none
+==================================================
+
