@@ -1,0 +1,3 @@
+# Ignore my personal packet sniffer logs
+network_traffic_log.txt
+arp_cache.json
