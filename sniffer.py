@@ -189,7 +189,7 @@ def packet_sniffer(packet):
             existing_entry = arp_table.get(src_ip)
             if existing_entry is None:
                 update_arp_entry(arp_table, src_ip, src_mac)
-                print(f"{timestamp1}: [NEW DEVICE] !!! {src_ip} is at {src_mac}")
+                print(f"{timestamp1}: [NEW DEVICE] !!! {src_ip} ({get_hostname_by_ip(src_ip)}) is at {src_mac}")
             elif existing_entry["mac"] != src_mac:
                 old_mac = existing_entry["mac"]
                 print(f"[WARNING] !!! IP Cache Change for {src_ip} !!! POSSIBLE ARP SPOOFING !!!")
@@ -198,7 +198,7 @@ def packet_sniffer(packet):
                 update_arp_entry(arp_table, src_ip, src_mac)
             else:
                 update_arp_entry(arp_table, src_ip, src_mac)
-                print(f"{timestamp1}: [ARP] [Response] {src_ip} is at {src_mac}")
+                print(f"{timestamp1}: [ARP] [Response] {src_ip} ({get_hostname_by_ip(src_ip)}) is at {src_mac}")
             log_msg = f"Timestamp: {timestamp2}\nProtocol Desc: {proto_desc}\nS IP: {src_ip} responds to D IP: {dst_ip}\nAt MAC: {src_mac}\n\n"
         else:
             proto_desc = "Unknown ARP"
@@ -207,4 +207,4 @@ def packet_sniffer(packet):
         with open("network_traffic_log.txt", "a") as f:
             f.write(log_msg)
 print("Starting packet sniffer... Press Ctrl+C to stop.")
-sniff(iface = "lo0", filter = "host 127.0.0.1", prn = packet_sniffer, store = False, count = 50)
+sniff(filter = "arp", prn = packet_sniffer, store = False, count = 50)
