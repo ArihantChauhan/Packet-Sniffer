@@ -71,7 +71,7 @@ port_scan_tracker = {}
 PORT_SCAN_THRESHOLD = 15
 TIME_WINDOW = 2
 
-def check_port_scan(src_ip, dst_port):
+def check_port_scan(src_ip, dst_port, timestamp):
     global port_scan_tracker
     curr_time = datetime.now()
 
@@ -86,7 +86,7 @@ def check_port_scan(src_ip, dst_port):
     else:
         record["ports".add(dst_port)]
         if len(record["ports"] > PORT_SCAN_THRESHOLD):
-            print(f"{timestamp1}: !!! PORT SCAN DETECTED !!!")
+            print(f"{timestamp}: !!! PORT SCAN DETECTED !!!")
             print(f"Offender IP: {src_ip} | Scanned Ports: {len(record["ports"])} unique ports in {elapsed_time: .2f}s")
 
 arp_table = load_arp_cache()
@@ -112,6 +112,7 @@ def packet_sniffer(packet):
             src_port = packet[TCP].sport
             dst_port = packet[TCP].dport
             tcp_flags = packet[TCP].flags
+            check_port_scan(src_ip, dst_port, timestamp1)
             if packet.haslayer(Raw):
                 raw_payload = packet[Raw].load
                 try:
@@ -164,6 +165,7 @@ def packet_sniffer(packet):
                 payload = raw_payload.decode("utf-8", errors = "ignore")
             src_port = packet[UDP].sport
             dst_port = packet[UDP].dport
+            check_port_scan(src_ip, dst_port, timestamp1)
             if src_port == 53 or dst_port == 53:
                 app_proto = "DNS (Domain Lookup)"
             elif src_port == 5353 or dst_port == 5353 or dst_ip == "224.0.0.251":
