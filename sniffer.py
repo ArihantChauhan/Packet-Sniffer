@@ -5,6 +5,9 @@ import json, os, socket
 
 syn_flood_tracker = {"count": 0, "start_time": datetime.now()}
 
+timestamp1 = datetime.now().strftime("%H:%M:%S")
+timestamp2 = datetime.now().strftime("%D | %H:%M:%S")
+
 CACHE_FILE = "arp_cache.json"
 CACHE_TTL_SECONDS = 24 * 60 * 60
 
@@ -64,6 +67,28 @@ def get_hostname_by_ip(ip_address):
 
     return "Unknown Device"
 
+port_scan_tracker = {}
+PORT_SCAN_THRESHOLD = 15
+TIME_WINDOW = 2
+
+def check_port_scan(src_ip, dst_port):
+    global port_scan_tracker
+    curr_time = datetime.now()
+
+    if src_ip not in port_scan_tracker:
+        port_scan_tracker[src_ip] = {"ports": {dst_port}, "start_time": curr_time}
+        return
+    record = port_scan_tracker[src_ip]
+    elapsed_time = (curr_time - record["start_time"]).total_seconds()
+
+    if elapsed_time > TIME_WINDOW:
+        port_scan_tracker[src_ip] = {"ports": {dst_port}, "start_time": curr_time}
+    else:
+        record["ports".add(dst_port)]
+        if len(record["ports"] > PORT_SCAN_THRESHOLD):
+            print(f"{timestamp1}: !!! PORT SCAN DETECTED !!!")
+            print(f"Offender IP: {src_ip} | Scanned Ports: {len(record["ports"])} unique ports in {elapsed_time: .2f}s")
+
 arp_table = load_arp_cache()
 print(f"Loaded {len(arp_table)} existing ARP records.")
 
@@ -75,8 +100,6 @@ def packet_sniffer(packet):
     trans_proto = "unknown"
     payload = "none"
     app_proto = "unknown"
-    timestamp1 = datetime.now().strftime("%H:%M:%S")
-    timestamp2 = datetime.now().strftime("%D | %H:%M:%S")
     curr_time = datetime.now()
     syn_threshold = 50
     time_window = 2
