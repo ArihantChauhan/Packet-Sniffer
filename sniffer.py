@@ -100,7 +100,6 @@ def packet_sniffer(packet):
     trans_proto = "unknown"
     payload = "none"
     app_proto = "unknown"
-    curr_time = datetime.now()
     syn_threshold = 50
     time_window = 2
     tcp_flags = "none"
@@ -121,6 +120,7 @@ def packet_sniffer(packet):
                     payload = "[encrypted]"
             trans_proto = "TCP"
             if tcp_flags == "S":
+                curr_time = datetime.now()
                 time_elapsed = (curr_time - syn_flood_tracker["start_time"]).total_seconds()
                 if time_elapsed > time_window:
                     syn_flood_tracker = {"count": 0, "start_time": curr_time}
